@@ -12,16 +12,11 @@ export function SIdebarDrawerProvider(props: SidebarDrawerProviderProps) {
   const disclosure = useDisclosure()
   const router = useRouter()
 
-  const handleRouteChange = useCallback(() => {
-    disclosure.onClose()
-
-  // if I use disclosure on deps array it will not work
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.asPath])
-
   useEffect(() => {
-    handleRouteChange()
-  }, [router.asPath, handleRouteChange])
+    disclosure.onClose()
+    // if I use disclosure on deps array it will not work
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.asPath])
 
   return (
     <SidebarDrawerContext.Provider value={disclosure}>
