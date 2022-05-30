@@ -1,6 +1,6 @@
 import { useDisclosure, UseDisclosureReturn } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { createContext, ReactNode, useContext, useEffect } from "react";
+import { createContext, ReactNode, useCallback, useContext, useEffect } from "react";
 
 const SidebarDrawerContext = createContext<UseDisclosureReturn | undefined>(undefined);
 
@@ -12,9 +12,16 @@ export function SIdebarDrawerProvider(props: SidebarDrawerProviderProps) {
   const disclosure = useDisclosure()
   const router = useRouter()
 
-  useEffect(() => {
+  const handleRouteChange = useCallback(() => {
     disclosure.onClose()
-  }, [router.asPath, disclosure])
+
+  // if I use disclosure on deps array it will not work
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.asPath])
+
+  useEffect(() => {
+    handleRouteChange()
+  }, [router.asPath, handleRouteChange])
 
   return (
     <SidebarDrawerContext.Provider value={disclosure}>

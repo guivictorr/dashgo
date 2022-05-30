@@ -2,6 +2,7 @@ import { Box, Button, Divider, Flex, Heading, SimpleGrid, VStack } from "@chakra
 import { Input } from "components/Form/Input";
 import { Header } from "components/Header";
 import { Sidebar } from "components/Sidebar"
+import Link from "next/link";
 
 export default function CreateUser() {
   return (
@@ -39,9 +40,11 @@ export default function CreateUser() {
             justify="flex-end"
             gap="4"
           >
-            <Button colorScheme="whiteAlpha">
-              Cancelar
-            </Button>
+            <Link href="/users" passHref>
+              <Button as="a" colorScheme="whiteAlpha">
+                Cancelar
+              </Button>
+            </Link>
             <Button colorScheme="pink">
               Salvar
             </Button>
