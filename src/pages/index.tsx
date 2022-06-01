@@ -4,18 +4,23 @@ import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Input } from "components/Form/Input"
 
+type SignInFormData = {
+  email: string;
+  password: string;
+}
+
 const Home = () => {
   const schema = yup.object().shape({
     email: yup.string().email('Email inválido').required('Email obrigatório'),
     password: yup.string().required('Senha obrigatória'),
   })
 
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState } = useForm<SignInFormData>({
     resolver: yupResolver(schema)
   });
 
 
-  const handleSignIn: SubmitHandler<FieldValues> = (values) => {
+  const handleSignIn: SubmitHandler<SignInFormData> = (values) => {
     console.log(values)
   }
 
