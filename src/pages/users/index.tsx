@@ -19,36 +19,12 @@ import {
 import { Header } from 'components/Header';
 import { Pagination } from 'components/Pagination';
 import { Sidebar } from 'components/Sidebar';
+import { useUsers } from 'hooks/useUsers';
 import Link from 'next/link';
-import { RiAddLine, RiPencilLine } from 'react-icons/ri';
-import { useQuery } from 'react-query';
-import { api } from 'services/api';
-
-type User = {
-  email: string;
-  name: string;
-  createdAt: string;
-  id: string;
-};
+import { RiAddLine } from 'react-icons/ri';
 
 export default function UserList() {
-  const { data, isLoading, error, isFetching } = useQuery<User[]>(
-    'users',
-    async () => {
-      const { data } = await api.get('/users');
-
-      const users = data.users.map((user: User) => ({
-        ...user,
-        createdAt: new Date(user.createdAt).toLocaleDateString('pt-br', {
-          day: '2-digit',
-          month: 'long',
-          year: 'numeric',
-        }),
-      }));
-
-      return users;
-    },
-  );
+  const { data, isLoading, error, isFetching } = useUsers();
 
   const isWideVersion = useBreakpointValue({
     base: false,
