@@ -1,12 +1,12 @@
-import { Box, Text, Stack, Link, Icon } from "@chakra-ui/react";
-import { ReactNode } from "react";
+import { Box, Text, Stack, Link, Icon } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
 type NavSectionProps = {
   title: string;
   children: ReactNode;
-}
+};
 
-export function NavSection({children, title}: NavSectionProps) {
+export function NavSection({ children, title }: NavSectionProps) {
   return (
     <Box>
       <Text fontWeight="bold" color="gray.400" fontSize="small">
@@ -16,5 +16,5 @@ export function NavSection({children, title}: NavSectionProps) {
         {children}
       </Stack>
     </Box>
-  )
+  );
 }
