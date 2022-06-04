@@ -1,16 +1,15 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import { SIdebarDrawerProvider } from 'context/SidebarDrawerContext';
 import { AppProps } from 'next/app';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { makeServer } from 'services/miragejs';
+import { client } from 'services/react-query';
 import { theme } from 'styles/theme';
 
 if (process.env.NODE_ENV === 'development') {
   makeServer();
 }
-
-const client = new QueryClient();
-
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={client}>
@@ -19,6 +18,8 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </SIdebarDrawerProvider>
       </ChakraProvider>
+
+      {process.env.NODE_ENV === 'development' && <ReactQueryDevtools />}
     </QueryClientProvider>
   );
 }
