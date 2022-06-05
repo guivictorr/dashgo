@@ -14,6 +14,10 @@ import { Input } from 'components/Form/Input';
 import { Header } from 'components/Header';
 import { Sidebar } from 'components/Sidebar';
 import Link from 'next/link';
+import { useMutation } from 'react-query';
+import { api } from 'services/api';
+import { useRouter } from 'next/router';
+import { client } from 'services/react-query';
 
 type CreateUserFormData = {
   email: string;
@@ -23,6 +27,25 @@ type CreateUserFormData = {
 };
 
 export default function CreateUser() {
+  const router = useRouter();
+  const createUser = useMutation(
+    async (user: CreateUserFormData) => {
+      const response = await api.post('/users', {
+        user: {
+          ...user,
+          created_at: new Date(),
+        },
+      });
+
+      return response.data.user;
+    },
+    {
+      onSuccess: () => {
+        client.invalidateQueries();
+      },
+    },
+  );
+
   const schema = yup.object().shape({
     name: yup.string().required('Nome obrigatório'),
     email: yup.string().email('Email inválido').required('Email obrigatório'),
@@ -39,8 +62,11 @@ export default function CreateUser() {
     resolver: yupResolver(schema),
   });
 
-  const handleCreateUser: SubmitHandler<CreateUserFormData> = (values) => {
-    console.log(values);
+  const handleCreateUser: SubmitHandler<CreateUserFormData> = async (
+    values,
+  ) => {
+    await createUser.mutateAsync(values);
+    router.push('/users');
   };
 
   return (

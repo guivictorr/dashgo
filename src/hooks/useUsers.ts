@@ -6,7 +6,7 @@ const FIVE_SECONDS = 1000 * 5;
 type User = {
   email: string;
   name: string;
-  createdAt: string;
+  created_at: string;
   id: string;
 };
 
@@ -26,7 +26,7 @@ async function getUsers(page: number): Promise<GetUsersResponse> {
 
   const users = data.users.map((user: User) => ({
     ...user,
-    createdAt: new Date(user.createdAt).toLocaleDateString('pt-br', {
+    created_at: new Date(user.created_at).toLocaleDateString('pt-br', {
       day: '2-digit',
       month: 'long',
       year: 'numeric',
